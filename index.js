@@ -33,6 +33,31 @@ app.post("/cliente", async(req,res) => {
     }
 })
 
+// consulta de todos os clientes
+app.get("/cliente", async(req , res)=>{
+    try{
+        const clientes = await db.pool.query(`SELECT * FROM cliente`)
+        res.status(200).json(clientes[0])
+    } catch(error){
+        res.status(500).json({resposta: error.message})
+    }  
+})
+
+
+// consulta de 1 cliente
+// SELECT * FROM cliente WHERE id = ?;
+app.get("/cliente/:id", async(req , res)=>{
+    const id = req.params.id
+    try{
+        const clientes = await db.pool.query('SELECT * FROM cliente WHERE id = ?', [id])
+        
+        res.status(200).json(clientes[0])
+    } catch(error){
+        res.status(500).json({resposta: error.message})
+    }  
+})
+
+
 app.listen(port, () => {
     console.log(
         "API rodando na porta" + port
