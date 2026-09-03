@@ -10,7 +10,6 @@ const db = require("./db")
 
 // npm i bcrypt
 const bcrypt = require("bcrypt")
-
 // aqui fazemos as operações do bd
 app.post("/cliente", async(req,res) => {
     try {
@@ -33,12 +32,38 @@ app.post("/cliente", async(req,res) => {
     }
 })
 
+app.post("/login", async (req,res) => {
+    try {
+        const user = req.body
+        const resultado = await db.pool.query(
+            'SELECT email, senha FROM cliente WHERE email = ?' ,
+            [user.email]
+        )
+        const dados_bd = resultado[0][0] 
+
+        if(!dados_bd) {
+            return res.status(401).json({mensagem: "Email ou senha inválido!"})
+        }
+
+        if(user.senha == dados_bd.senha) {
+            return res.status(200).json({mensagem: "Login realizado com sucesso!"})
+        } else {
+            return res.status(401).json({mensagem: "Email ou senha inválido!"})
+        }
+
+    } catch (error) {
+        res.status(500).json({erro: error.message})
+    }
+})                 
+            
+
+
 // consulta de todos os clientes
 app.get("/cliente", async(req , res)=>{
     try{
         const clientes = await db.pool.query(`SELECT * FROM cliente`)
         res.status(200).json(clientes[0])
-    } catch(error){
+    } catch(error) {
         res.status(500).json({resposta: error.message})
     }  
 })
