@@ -7,7 +7,6 @@ app.use(express.json())
 
 // npm i mysql2
 const db = require("./db")
-
 // npm i bcrypt
 const bcrypt = require("bcrypt")
 // aqui fazemos as operações do bd
@@ -30,6 +29,7 @@ app.post("/cliente", async(req,res) => {
     } catch (error) {
         res.status(500).json({erro: error.message})
     }
+
 })
 
 app.post("/login", async (req,res) => {
@@ -38,19 +38,17 @@ app.post("/login", async (req,res) => {
         const resultado = await db.pool.query(
             'SELECT email, senha FROM cliente WHERE email = ?' ,
             [user.email]
-        )
+        )  
         const dados_bd = resultado[0][0] 
-
         if(!dados_bd) {
             return res.status(401).json({mensagem: "Email ou senha inválido!"})
         }
-
-        if(user.senha == dados_bd.senha) {
+        const senhaValida = await bcrypt.compare(user.senha, dados_bd.senha)
+        if(senhaValida) {
             return res.status(200).json({mensagem: "Login realizado com sucesso!"})
         } else {
             return res.status(401).json({mensagem: "Email ou senha inválido!"})
         }
-
     } catch (error) {
         res.status(500).json({erro: error.message})
     }
