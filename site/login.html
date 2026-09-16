@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        
+        /* Reset e Configurações de Cor */
+        :root {
+            --primary-blue: #0066ff;
+            --dark-blue: #1a2b48;
+            --light-blue: #f0f7ff;
+            --border-color: #d1d9e6;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--light-blue);
+            color: var(--dark-blue);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            background: #ffffff;
+            width: 100%;
+            max-width: 650px;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0, 102, 255, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: var(--primary-blue);
+            margin-bottom: 30px;
+            font-size: 28px;
+        }
+
+        form {
+            display: grid;
+            grid-template-columns: 1fr 1fr; /* Divide em duas colunas */
+            gap: 20px;
+        }
+
+        /* Faz campos específicos ocuparem a linha inteira */
+        .full-width {
+            grid-column: span 2;
+        }
+
+        .field-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        input {
+            padding: 12px 15px;
+            border: 1.5px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 4px rgba(0, 102, 255, 0.1);
+        }
+
+        input::placeholder {
+            color: #a0aec0;
+        }
+
+        .btn-submit {
+            grid-column: span 2;
+            background-color: var(--primary-blue);
+            color: white;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s transform 0.2s;
+            margin-top: 10px;
+        }
+
+        .btn-submit:hover {
+            background-color: #0052cc;
+            transform: translateY(-1px);
+        }
+
+        /* Responsividade para celulares */
+        @media (max-width: 600px) {
+            form {
+                grid-template-columns: 1fr;
+            }
+            .full-width {
+                grid-column: span 1;
+            }
+            .btn-submit {
+                grid-column: span 1;
+            }
+        }
+    </style>
+
+</head>
+<body>
+
+<div class="container">
+    <h1>Login</h1>
+    
+    <form id="form_login">
+       
+
+        <div class="field-group">
+            <label for="email">E-mail</label>
+            <input type="email" id="email" placeholder="exemplo@email.com" required>
+        </div>
+
+     
+
+        
+
+        <div class="field-group full-width">
+            <label for="Senha">Senha</label>
+            <input type="password" id="Senha" placeholder="Crie uma senha segura" required>
+        </div>
+
+        <button type="submit" id="btn_enviar" class="btn-submit">Login</button>
+    </form>
+</div>
+<script>
+    function pegar_dados() {
+        const dados = {
+            
+            email: document.getElementById("email").value,
+            senha: document.getElementById("Senha").value
+        }
+        return dados
+    }
+    const form = document.getElementById("form_login")
+    const btn_enviar = document.getElementById("btn_enviar")
+    form.addEventListener("submit", async (event) => {
+        event.preventDefault() // evita o recarregamento da página
+        btn_enviar.disabled = true
+        btn_enviar.value = "Enviando..."
+        const dados = pegar_dados()
+        try {
+            const resposta = await fetch(
+                "http://10.216.243.142:3000/login", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(dados)
+                }
+            )
+            if (!resposta.ok) throw new Error("Erro na API")
+            alert("O login foi realizado!")
+            form.reset()
+        } catch (error) {
+            alert(error)
+        } finally {
+            btn_enviar.disabled = false
+            btn_enviar.value = "Enviar Cadastro"
+        }
+    })
+</script>
+</body>
+</html>
