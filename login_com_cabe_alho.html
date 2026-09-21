@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Portal Geek</title>
+    <!-- Bootstrap 5 CSS CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <style>
+        /* Reset e Configurações de Cor */
+        :root {
+            --primary-blue: #0066ff;
+            --dark-blue: #1a2b48;
+            --light-blue: #f0f7ff;
+            --border-color: #d1d9e6;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--light-blue);
+            color: var(--dark-blue);
+            min-height: 100vh;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Estilização Customizada do Cabeçalho / Navbar */
+        .custom-navbar {
+            background-color: #ffffff;
+            box-shadow: 0 4px 15px rgba(0, 102, 255, 0.08);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .custom-navbar .navbar-brand {
+            color: var(--primary-blue);
+            font-weight: 700;
+            font-size: 1.5rem;
+            letter-spacing: -0.5px;
+        }
+
+        .custom-navbar .navbar-brand:hover {
+            color: #0052cc;
+        }
+
+        .custom-navbar .nav-link {
+            color: var(--dark-blue);
+            font-weight: 600;
+            padding: 8px 16px !important;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .custom-navbar .nav-link:hover {
+            color: var(--primary-blue);
+            background-color: var(--light-blue);
+        }
+
+        .custom-navbar .nav-link.active {
+            color: var(--primary-blue) !important;
+            background-color: var(--light-blue);
+        }
+
+        .navbar-toggler {
+            border-color: var(--border-color);
+        }
+
+        .navbar-toggler:focus {
+            box-shadow: 0 0 0 0.25rem rgba(0, 102, 255, 0.25);
+        }
+
+        /* Área do Conteúdo Principal */
+        .main-content {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+        }
+
+        .login-card {
+            background: #ffffff;
+            width: 100%;
+            max-width: 650px;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0, 102, 255, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: var(--primary-blue);
+            margin-bottom: 30px;
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        form {
+            display: grid;
+            grid-template-columns: 1fr 1fr; /* Divide em duas colunas */
+            gap: 20px;
+        }
+
+        /* Faz campos específicos ocuparem a linha inteira */
+        .full-width {
+            grid-column: span 2;
+        }
+
+        .field-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        input {
+            padding: 12px 15px;
+            border: 1.5px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 4px rgba(0, 102, 255, 0.1);
+        }
+
+        input::placeholder {
+            color: #a0aec0;
+        }
+
+        .btn-submit {
+            grid-column: span 2;
+            background-color: var(--primary-blue);
+            color: white;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.2s;
+            margin-top: 10px;
+        }
+
+        .btn-submit:hover {
+            background-color: #0052cc;
+            transform: translateY(-1px);
+        }
+
+        /* Mensagem personalizada (substituindo alert) */
+        .feedback-message {
+            display: none;
+            grid-column: span 2;
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .feedback-message.success {
+            background-color: #e6fffa;
+            color: #047857;
+            border: 1px solid #34d399;
+        }
+
+        .feedback-message.error {
+            background-color: #fef2f2;
+            color: #b91c1c;
+            border: 1px solid #f87171;
+        }
+
+        /* Responsividade para celulares */
+        @media (max-width: 600px) {
+            form {
+                grid-template-columns: 1fr;
+            }
+            .full-width, .btn-submit, .feedback-message {
+                grid-column: span 1;
+            }
+            .login-card {
+                padding: 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <nav class="navbar navbar-expand-lg custom-navbar sticky-top">
+            <div class="container">
+                <!-- Marca / Logo -->
+                <a class="navbar-brand d-flex align-items-center gap-2" href="#">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" class="bi bi-controller" viewBox="0 0 16 16">
+                        <path d="M11.5 6.002a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3M14 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0m-2.5 1.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3M9.5 6.002a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3M6 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0m-2.5 1.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3"/>
+                        <path d="M11.5 1a2.5 2.5 0 0 1 2.5 2.5V4h-1v-.5a1.5 1.5 0 0 0-1.5-1.5h-7A1.5 1.5 0 0 0 3 3.5V4H2v-.5A2.5 2.5 0 0 1 4.5 1zM2 6h12v6.5A2.5 2.5 0 0 1 11.5 15h-7A2.5 2.5 0 0 1 2 12.5z"/>
+                    </svg>
+                    <span>Portal Geek</span>
+                </a>
+
+                <!-- Botão Hambúrguer para telas menores -->
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain" aria-controls="navbarMain" aria-expanded="false" aria-label="Alternar navegação">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Links de Navegação -->
+                <div class="collapse navbar-collapse" id="navbarMain">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0 gap-1">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#animes">Animes</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#jogos">Jogos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="#login">Login</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="main-content">
+        <div class="login-card">
+            <h1>Login</h1>
+            
+            <form id="form_login">
+                <div class="field-group full-width">
+                    <label for="email">E-mail</label>
+                    <input type="email" id="email" placeholder="exemplo@email.com" required>
+                </div>
+
+                <div class="field-group full-width">
+                    <label for="Senha">Senha</label>
+                    <input type="password" id="Senha" placeholder="Digite sua senha" required>
+                </div>
+
+                <div id="feedback" class="feedback-message"></div>
+
+                <button type="submit" id="btn_enviar" class="btn-submit">Login</button>
+            </form>
+        </div>
+    </main>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        function pegar_dados() {
+            const dados = {
+                email: document.getElementById("email").value,
+                senha: document.getElementById("Senha").value
+            }
+            return dados
+        }
+
+        const form = document.getElementById("form_login")
+        const btn_enviar = document.getElementById("btn_enviar")
+        const feedback = document.getElementById("feedback")
+
+        function mostrarMensagem(texto, tipo) {
+            feedback.textContent = texto;
+            feedback.className = `feedback-message ${tipo}`;
+            feedback.style.display = "block";
+        }
+
+        form.addEventListener("submit", async (event) => {
+            event.preventDefault() // evita o recarregamento da página
+            btn_enviar.disabled = true
+            btn_enviar.innerText = "Enviando..."
+            feedback.style.display = "none";
+
+            const dados = pegar_dados()
+            try {
+                const resposta = await fetch(
+                    "http://10.216.243.142:3000/login", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(dados)
+                    }
+                )
+                if (!resposta.ok) throw new Error("Erro no servidor ou dados incorretos.")
+                
+                mostrarMensagem("O login foi realizado com sucesso!", "success");
+                form.reset()
+            } catch (error) {
+                mostrarMensagem("Falha ao realizar login: " + error.message, "error");
+            } finally {
+                btn_enviar.disabled = false
+                btn_enviar.innerText = "Login"
+            }
+        })
+    </script>
+</body>
+</html>
