@@ -56,7 +56,7 @@ app.post("/login", async (req,res) => {
             
 
 
-// consulta de todos os clientes
+
 app.get("/cliente", async(req , res)=>{
     try{
         const clientes = await db.pool.query(`SELECT * FROM cliente`)
@@ -67,14 +67,14 @@ app.get("/cliente", async(req , res)=>{
 })
 
 
-// consulta de 1 cliente
-// SELECT * FROM cliente WHERE id = ?;
-app.get("/cliente/:id", async(req , res)=>{
-    const id = req.params.id
+
+app.get("/cliente/perfil", autenticar, async (req,res) => {
+    const id = req.usuario.id
     try{
         const clientes = await db.pool.query('SELECT * FROM cliente WHERE id = ?', [id])
-        
-        res.status(200).json(clientes[0])
+        const cliente= clientes[0][0] 
+        delete cliente.senha
+        res.status(200).json(cliente)
     } catch(error){
         res.status(500).json({resposta: error.message})
     }  
@@ -82,8 +82,18 @@ app.get("/cliente/:id", async(req , res)=>{
 
 
 app.listen(port, () => {
-    console.log(
-        "API rodando na porta" + port
-    )
-  })
+    console.log("API rodando na porta" + port)
+})
   
+function autenticar(req, res, next){
+    const authHeader = req.headers['authorization']
+    const token = authHeader && authHeader.split(' ')[1]
+    if (token == null){
+        return res.status(401).json({erro: "Token não enviado, usar Authorization Bearer <token>"})
+    }
+    jwt.verify(token, process.env.JWT_SECRET, (err, usuario) => {
+        if (err) return res.status(403).json({erro: "Token inválido"})
+        req.usuario = usuario
+        next()
+    })   
+}
