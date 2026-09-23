@@ -9,6 +9,19 @@ app.use(express.json())
 const db = require("./db")
 // npm i bcrypt
 const bcrypt = require("bcrypt")
+
+// npm i jsonwebtoken
+const jwt = require("jsonwebtoken")
+
+// npm i dotenv
+const dotenv = require("dotenv")
+dotenv.config()
+
+// npm i cors
+const cors = require("cors")
+app.use(cors())
+
+
 // aqui fazemos as operações do bd
 app.post("/cliente", async(req,res) => {
     try {
@@ -36,7 +49,7 @@ app.post("/login", async (req,res) => {
     try {
         const user = req.body
         const resultado = await db.pool.query(
-            'SELECT email, senha FROM cliente WHERE email = ?' ,
+            'SELECT id,nome,email, senha FROM cliente WHERE email = ?' ,
             [user.email]
         )  
         const dados_bd = resultado[0][0] 
@@ -44,11 +57,15 @@ app.post("/login", async (req,res) => {
             return res.status(401).json({mensagem: "Email ou senha inválido!"})
         }
         const senhaValida = await bcrypt.compare(user.senha, dados_bd.senha)
-        if(senhaValida) {
-            return res.status(200).json({mensagem: "Login realizado com sucesso!"})
-        } else {
+        if(!senhaValida) {
             return res.status(401).json({mensagem: "Email ou senha inválido!"})
         }
+        const payload = {
+            id: dados_bd.id,
+            email: dados_bd.email
+        } 
+        const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '2m' })
+        return res.status(200).json({nome: dados_bd.nome, token: token})
     } catch (error) {
         res.status(500).json({erro: error.message})
     }
@@ -84,7 +101,7 @@ app.get("/cliente/perfil", autenticar, async (req,res) => {
 app.listen(port, () => {
     console.log("API rodando na porta" + port)
 })
-  
+
 function autenticar(req, res, next){
     const authHeader = req.headers['authorization']
     const token = authHeader && authHeader.split(' ')[1]
