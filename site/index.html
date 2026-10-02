@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Critique & Play - Avaliações de Jogos e Animes</title>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    
+</head>
+<body>
+
+    <header>
+        <div class="header-content">
+            <a href="#" class="logo">
+                <i class="fa-solid fa-gamepad"></i> Critique & Play
+            </a>
+            <div class="nav-links">
+                <a href="login.html" class="btn-nav"><i class="fa-solid fa-user"></i> Login</a>
+                <a href="index.html" class="btn-nav"><i class="fa-solid fa-layer-group"></i> Ver Reviews</a>
+                <a href="index.html" class="btn-nav active"><i class="fa-solid fa-plus"></i> Nova Avaliação</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-wrapper">
+        <!-- Hero Section -->
+        <section class="hero-banner">
+            <h1>Avaliações de Jogos e Animes</h1>
+            <p>Descubra as melhores análises, compartilhe sua opinião sobre seus games e animes favoritos e interaja com a comunidade!</p>
+        </section>
+
+        <section id="add-review" class="container">
+            <h2 class="form-title">
+                <i class="fa-solid fa-pen-to-square"></i> Enviar Avaliação
+            </h2>
+            <form id="reviewForm">
+                <div class="field-group">
+                    <label for="title">Título da Obra *</label>
+                    <input type="text" id="title" placeholder="Ex: Elden Ring ou Naruto" required>
+                </div>
+
+                <div class="field-group">
+                    <label for="category">Categoria *</label>
+                    <select id="category" required>
+                        <option value="" disabled selected>Selecione...</option>
+                        <option value="Jogo">Jogo</option>
+                        <option value="Anime">Anime</option>
+                    </select>
+                </div>
+
+                <div class="field-group">
+                    <label for="rating">Nota (1 a 10) *</label>
+                    <input type="number" id="rating" min="1" max="10" step="0.5" placeholder="Ex: 9.5" required>
+                </div>
+
+                <div class="field-group">
+                    <label for="platform">Plataforma / Estúdio *</label>
+                    <input type="text" id="platform" placeholder="Ex: PC / PS5 ou MAPPA" required>
+                </div>
+
+                <div class="field-group full-width">
+                    <label for="author">Nome do Avaliador *</label>
+                    <input type="text" id="author" placeholder="Seu nome ou @nickname" required>
+                </div>
+
+                <div class="field-group full-width">
+                    <label for="comment">Análise / Comentários *</label>
+                    <textarea id="comment" placeholder="Escreva o que achou da narrativa, jogabilidade ou animação..." required></textarea>
+                </div>
+
+                <button type="submit" class="btn-submit">
+                    <i class="fa-solid fa-paper-plane"></i> Publicar Review
+                </button>
+            </form>
+        </section>
+
+        <section id="reviews" class="controls-bar">
+            <div class="search-box">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" id="searchInput" placeholder="Pesquisar por título, autor ou estúdio...">
+            </div>
+            <div class="filter-buttons">
+                <button class="filter-btn active" data-filter="all"><i class="fa-solid fa-border-all"></i> Todos</button>
+                <button class="filter-btn" data-filter="Jogo"><i class="fa-solid fa-gamepad"></i> Jogos</button>
+                <button class="filter-btn" data-filter="Anime"><i class="fa-solid fa-tv"></i> Animes</button>
+            </div>
+        </section>
+
+        <section>
+            <div class="section-header">
+                <h3 class="section-title">
+                    <i class="fa-solid fa-star"></i> Avaliações da Comunidade
+                </h3>
+            </div>
+
+            <div class="reviews-grid" id="reviewsContainer">
+                <!-- Cards inseridos via JavaScript -->
+            </div>
+        </section>
+    </main>
+
+    <!-- Elemento Toast para notificacoes -->
+    <div id="toast" class="toast">
+        <i class="fa-solid fa-circle-check"></i> <span id="toastMsg">Sua avaliação foi publicada!</span>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Critique & Play - Todos os direitos reservados. Projeto demonstrativo de avaliações de Jogos e Animes.</p>
+    </footer>
+
+    <script>
+        // Dados iniciais pré-carregados (Mock Data)
+        const initialReviews = [
+            {
+                id: 1,
+                title: "Elden Ring",
+                category: "Jogo",
+                rating: 9.8,
+                platform: "PC / PS5 / Xbox",
+                author: "GamerPro99",
+                comment: "Uma obra-prima absoluta do design de mundo aberto. A liberdade de exploração combinada com o combate desafiador torna uma experiência inesquecível.",
+                likes: 42,
+                liked: false
+            },
+            {
+                id: 2,
+                title: "Sousou no Frieren",
+                category: "Anime",
+                rating: 10,
+                platform: "Madhouse",
+                author: "OtakuCentral",
+                comment: "Trilha sonora fantástica, animação impecável e uma narrativa emocionante sobre a passagem do tempo e conexões humanas. Um dos melhores animes da década.",
+                likes: 38,
+                liked: false
+            },
+            {
+                id: 3,
+                title: "The Legend of Zelda: Tears of the Kingdom",
+                category: "Jogo",
+                rating: 9.7,
+                platform: "Nintendo Switch",
+                author: "LinkFan",
+                comment: "A mecânica de criação com a habilidade Ultrahand eleva a interatividade a um nível inacreditável. O mapa do céu e das profundezas expandem drasticamente o jogo.",
+                likes: 29,
+                liked: false
+            },
+            {
+                id: 4,
+                title: "Attack on Titan (Shingeki no Kyojin)",
+                category: "Anime",
+                rating: 9.5,
+                platform: "MAPPA / WIT",
+                author: "AnimeMaster",
+                comment: "Uma trama recheada de reviravoltas impressionantes do começo ao fim. A evolução dos personagens e os dilemas morais são fantásticos.",
+                likes: 54,
+                liked: false
+            }
+        ];
+
+        // Estado local da aplicacao
+        let reviews = JSON.parse(localStorage.getItem('critique_play_reviews')) || initialReviews;
+        let activeFilter = 'all';
+        let searchQuery = '';
+
+        // Elementos DOM
+        const reviewsContainer = document.getElementById('reviewsContainer');
+        const reviewForm = document.getElementById('reviewForm');
+        const searchInput = document.getElementById('searchInput');
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const toast = document.getElementById('toast');
+        const toastMsg = document.getElementById('toastMsg');
+
+        // Renderizar Lista de Reviews
+        function renderReviews() {
+            reviewsContainer.innerHTML = '';
+
+            const filteredReviews = reviews.filter(item => {
+                const matchesFilter = activeFilter === 'all' || item.category === activeFilter;
+                const matchesSearch = item.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                                      item.platform.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                                      item.author.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                                      item.comment.toLowerCase().includes(searchQuery.toLowerCase());
+                return matchesFilter && matchesSearch;
+            });
+
+            if (filteredReviews.length === 0) {
+                reviewsContainer.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fa-solid fa-folder-open"></i>
+                        <h3>Nenhuma avaliação encontrada</h3>
+                        <p>Tente ajustar a sua busca ou seja o primeiro a enviar uma review sobre este título!</p>
+                    </div>
+                `;
+                return;
+            }
+
+            filteredReviews.forEach(review => {
+                const card = document.createElement('div');
+                card.className = 'review-card';
+
+                const isGame = review.category === 'Jogo';
+                const badgeClass = isGame ? 'badge-game' : 'badge-anime';
+                const iconClass = isGame ? 'fa-gamepad' : 'fa-tv';
+
+                card.innerHTML = `
+                    <div>
+                        <div class="card-top">
+                            <span class="badge ${badgeClass}">
+                                <i class="fa-solid ${iconClass}"></i> ${review.category}
+                            </span>
+                            <div class="rating-badge">
+                                <i class="fa-solid fa-star"></i> ${parseFloat(review.rating).toFixed(1)}
+                            </div>
+                        </div>
+                        <h4 class="card-title">${escapeHTML(review.title)}</h4>
+                        <div class="card-subtitle">
+                            <i class="fa-solid ${isGame ? 'fa-desktop' : 'fa-film'}"></i>
+                            ${escapeHTML(review.platform)}
+                        </div>
+                        <p class="card-comment">${escapeHTML(review.comment)}</p>
+                    </div>
+                    <div class="card-footer">
+                        <div class="reviewer-info">
+                            <i class="fa-solid fa-user-circle"></i> ${escapeHTML(review.author)}
+                        </div>
+                        <button class="like-btn ${review.liked ? 'liked' : ''}" onclick="toggleLike(${review.id})">
+                            <i class="${review.liked ? 'fa-solid' : 'fa-regular'} fa-heart"></i>
+                            <span>${review.likes}</span>
+                        </button>
+                    </div>
+                `;
+
+                reviewsContainer.appendChild(card);
+            });
+        }
+
+        // Adicionar Nova Review
+        reviewForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const newReview = {
+                id: Date.now(),
+                title: document.getElementById('title').value,
+                category: document.getElementById('category').value,
+                rating: parseFloat(document.getElementById('rating').value),
+                platform: document.getElementById('platform').value,
+                author: document.getElementById('author').value,
+                comment: document.getElementById('comment').value,
+                likes: 0,
+                liked: false
+            };
+
+            reviews.unshift(newReview);
+            saveToLocalStorage();
+            renderReviews();
+            reviewForm.reset();
+
+            showToast("Sua avaliação foi publicada com sucesso!");
+            
+            // Scroll suave até o mural
+            document.getElementById('reviews').scrollIntoView({ behavior: 'smooth' });
+        });
+
+        // Alternar curtida/like
+        window.toggleLike = function(id) {
+            const review = reviews.find(r => r.id === id);
+            if (review) {
+                if (review.liked) {
+                    review.likes -= 1;
+                    review.liked = false;
+                } else {
+                    review.likes += 1;
+                    review.liked = true;
+                }
+                saveToLocalStorage();
+                renderReviews();
+            }
+        };
+
+        // Filtro por categoria
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                activeFilter = btn.getAttribute('data-filter');
+                renderReviews();
+            });
+        });
+
+        // Evento de Busca em tempo real
+        searchInput.addEventListener('input', (e) => {
+            searchQuery = e.target.value;
+            renderReviews();
+        });
+
+        // Salvar localmente
+        function saveToLocalStorage() {
+            localStorage.setItem('critique_play_reviews', JSON.stringify(reviews));
+        }
+
+        // Exibir Notificação Toast
+        function showToast(message) {
+            toastMsg.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // Sanitizador simples para XSS
+        function escapeHTML(str) {
+            return str.replace(/[&<>'"]/g, 
+                tag => ({
+                    '&': '&amp;',
+                    '<': '&lt;',
+                    '>': '&gt;',
+                    "'": '&#39;',
+                    '"': '&quot;'
+                }[tag] || tag)
+            );
+        }
+
+        // Inicialização
+        window.onload = function() {
+            renderReviews();
+        };
+    </script>
+</body>
+</html>
