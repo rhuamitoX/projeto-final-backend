@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Critique & Play - Avaliações de Jogos e Animes</title>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary-blue: #0066ff;
+            --dark-blue: #1a2b48;
+            --light-blue: #f0f7ff;
+            --border-color: #d1d9e6;
+            --hover-blue: #0052cc;
+            --card-bg: #ffffff;
+            --star-gold: #ffb400;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--light-blue);
+            color: var(--dark-blue);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        header {
+            width: 100%;
+            background: #ffffff;
+            box-shadow: 0 4px 15px rgba(0, 102, 255, 0.08);
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary-blue);
+            text-decoration: none;
+        }
+
+        .logo i {
+            font-size: 28px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .btn-nav {
+            background: transparent;
+            border: 1.5px solid var(--primary-blue);
+            color: var(--primary-blue);
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-nav:hover, .btn-nav.active {
+            background-color: var(--primary-blue);
+            color: white;
+        }
+
+        .main-wrapper {
+            width: 100%;
+            max-width: 1100px;
+            padding: 30px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+        }
+
+        .hero-banner {
+            text-align: center;
+            background: linear-gradient(135deg, #ffffff 0%, #e6f0ff 100%);
+            padding: 40px 20px;
+            border-radius: 20px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 8px 20px rgba(0, 102, 255, 0.05);
+        }
+
+        .hero-banner h1 {
+            color: var(--primary-blue);
+            font-size: 32px;
+            margin: 0 0 10px 0;
+            font-weight: 800;
+        }
+
+        .hero-banner p {
+            color: var(--dark-blue);
+            font-size: 16px;
+            max-width: 600px;
+            margin: 0 auto;
+            opacity: 0.85;
+        }
+
+        .controls-bar {
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 15px rgba(0, 102, 255, 0.05);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .search-box {
+            position: relative;
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 12px 15px 12px 42px;
+            border: 1.5px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        .search-box input:focus {
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 4px rgba(0, 102, 255, 0.1);
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #a0aec0;
+            font-size: 16px;
+        }
+
+        .filter-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            background-color: var(--light-blue);
+            border: 1.5px solid var(--border-color);
+            color: var(--dark-blue);
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            background-color: var(--primary-blue);
+            color: white;
+            border-color: var(--primary-blue);
+        }
+
+        .container {
+            background: #ffffff;
+            width: 100%;
+            max-width: 650px;
+            margin: 0 auto;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0, 102, 255, 0.1);
+            border: 1px solid var(--border-color);
+        }
+
+        .form-title {
+            text-align: center;
+            color: var(--primary-blue);
+            margin-bottom: 30px;
+            font-size: 26px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .full-width {
+            grid-column: span 2;
+        }
+
+        .field-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: var(--dark-blue);
+        }
+
+        input, select, textarea {
+            padding: 12px 15px;
+            border: 1.5px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 15px;
+            font-family: inherit;
+            transition: all 0.3s ease;
+            outline: none;
+            background-color: #ffffff;
+            color: var(--dark-blue);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 90px;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 4px rgba(0, 102, 255, 0.1);
+        }
+
+        input::placeholder, textarea::placeholder {
+            color: #a0aec0;
+        }
+
+        .btn-submit {
+            grid-column: span 2;
+            background-color: var(--primary-blue);
+            color: white;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.2s;
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn-submit:hover {
+            background-color: var(--hover-blue);
+            transform: translateY(-1px);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-size: 22px;
+            color: var(--dark-blue);
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .reviews-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 25px;
+        }
+
+        .review-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            padding: 22px;
+            box-shadow: 0 8px 20px rgba(0, 102, 255, 0.06);
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+        }
+
+        .review-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 28px rgba(0, 102, 255, 0.12);
+            border-color: var(--primary-blue);
+        }
+
+        .card-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
+
+        .badge {
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .badge-game {
+            background-color: #e6f0ff;
+            color: var(--primary-blue);
+        }
+
+        .badge-anime {
+            background-color: #fce8ff;
+            color: #b012c4;
+        }
+
+        .rating-badge {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            background: #fff8e6;
+            color: #b37d00;
+            padding: 4px 10px;
+            border-radius: 8px;
+            font-weight: 800;
+            font-size: 15px;
+            border: 1px solid #ffe8a3;
+        }
+
+        .rating-badge i {
+            color: var(--star-gold);
+        }
+
+        .card-title {
+            font-size: 19px;
+            font-weight: 700;
+            margin: 0 0 6px 0;
+            color: var(--dark-blue);
+        }
+
+        .card-subtitle {
+            font-size: 13px;
+            color: #64748b;
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .card-comment {
+            font-size: 14px;
+            line-height: 1.5;
+            color: #334155;
+            margin-bottom: 20px;
+            flex-grow: 1;
+            word-break: break-word;
+        }
+
+        .card-footer {
+            border-top: 1px solid #f0f4f9;
+            padding-top: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 13px;
+            color: #64748b;
+        }
+
+        .reviewer-info {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 600;
+        }
+
+        .like-btn {
+            background: none;
+            border: none;
+            color: #94a3b8;
+            cursor: pointer;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.2s ease;
+            padding: 5px 8px;
+            border-radius: 6px;
+        }
+
+        .like-btn:hover {
+            background-color: var(--light-blue);
+            color: #e11d48;
+        }
+
+        .like-btn.liked {
+            color: #e11d48;
+            font-weight: bold;
+        }
+
+        .empty-state {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 50px 20px;
+            background: #ffffff;
+            border-radius: 16px;
+            border: 1px dashed var(--border-color);
+        }
+
+        .empty-state i {
+            font-size: 48px;
+            color: #a0aec0;
+            margin-bottom: 15px;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--dark-blue);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 1000;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+            pointer-events: none;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        footer {
+            margin-top: auto;
+            width: 100%;
+            background: #ffffff;
+            border-top: 1px solid var(--border-color);
+            text-align: center;
+            padding: 20px;
+            font-size: 14px;
+            color: #64748b;
+        }
+
+        @media (max-width: 600px) {
+            .header-content {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .nav-links {
+                justify-content: center;
+            }
+
+            form {
+                grid-template-columns: 1fr;
+            }
+            .full-width {
+                grid-column: span 1;
+            }
+            .btn-submit {
+                grid-column: span 1;
+            }
+
+            .container {
+                padding: 25px 20px;
+            }
+
+            .controls-bar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .filter-buttons {
+                justify-content: space-between;
+            }
+
+            .filter-btn {
+                flex: 1;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-content">
+            <a href="#" class="logo">
+                <i class="fa-solid fa-gamepad"></i> Critique & Play
+            </a>
+            <div class="nav-links">
+                <a href="#reviews" class="btn-nav"><i class="fa-solid fa-layer-group"></i> Ver Reviews</a>
+                <a href="#add-review" class="btn-nav active"><i class="fa-solid fa-plus"></i> Nova Avaliação</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-wrapper">
+        <!-- Hero Section -->
+        <section class="hero-banner">
+            <h1>Avaliações de Jogos e Animes</h1>
+            <p>Descubra as melhores análises, compartilhe sua opinião sobre seus games e animes favoritos e interaja com a comunidade!</p>
+        </section>
+
+        <section id="add-review" class="container">
+            <h2 class="form-title">
+                <i class="fa-solid fa-pen-to-square"></i> Enviar Avaliação
+            </h2>
+            <form id="reviewForm">
+                <div class="field-group">
+                    <label for="title">Título da Obra *</label>
+                    <input type="text" id="title" placeholder="Ex: Elden Ring ou Naruto" required>
+                </div>
+
+                <div class="field-group">
+                    <label for="category">Categoria *</label>
+                    <select id="category" required>
+                        <option value="" disabled selected>Selecione...</option>
+                        <option value="Jogo">Jogo</option>
+                        <option value="Anime">Anime</option>
+                    </select>
+                </div>
+
+                <div class="field-group">
+                    <label for="rating">Nota (1 a 10) *</label>
+                    <input type="number" id="rating" min="1" max="10" step="0.5" placeholder="Ex: 9.5" required>
+                </div>
+
+                <div class="field-group">
+                    <label for="platform">Plataforma / Estúdio *</label>
+                    <input type="text" id="platform" placeholder="Ex: PC / PS5 ou MAPPA" required>
+                </div>
+
+                <div class="field-group full-width">
+                    <label for="author">Nome do Avaliador *</label>
+                    <input type="text" id="author" placeholder="Seu nome ou @nickname" required>
+                </div>
+
+                <div class="field-group full-width">
+                    <label for="comment">Análise / Comentários *</label>
+                    <textarea id="comment" placeholder="Escreva o que achou da narrativa, jogabilidade ou animação..." required></textarea>
+                </div>
+
+                <button type="submit" class="btn-submit">
+                    <i class="fa-solid fa-paper-plane"></i> Publicar Review
+                </button>
+            </form>
+        </section>
+
+        <section id="reviews" class="controls-bar">
+            <div class="search-box">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" id="searchInput" placeholder="Pesquisar por título, autor ou estúdio...">
+            </div>
+            <div class="filter-buttons">
+                <button class="filter-btn active" data-filter="all"><i class="fa-solid fa-border-all"></i> Todos</button>
+                <button class="filter-btn" data-filter="Jogo"><i class="fa-solid fa-gamepad"></i> Jogos</button>
+                <button class="filter-btn" data-filter="Anime"><i class="fa-solid fa-tv"></i> Animes</button>
+            </div>
+        </section>
+
+        <section>
+            <div class="section-header">
+                <h3 class="section-title">
+                    <i class="fa-solid fa-star"></i> Avaliações da Comunidade
+                </h3>
+            </div>
+
+            <div class="reviews-grid" id="reviewsContainer">
+                <!-- Cards inseridos via JavaScript -->
+            </div>
+        </section>
+    </main>
+
+    <!-- Elemento Toast para notificacoes -->
+    <div id="toast" class="toast">
+        <i class="fa-solid fa-circle-check"></i> <span id="toastMsg">Sua avaliação foi publicada!</span>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Critique & Play - Todos os direitos reservados. Projeto demonstrativo de avaliações de Jogos e Animes.</p>
+    </footer>
+
+    <script>
+        // Dados iniciais pré-carregados (Mock Data)
+        const initialReviews = [
+            {
+                id: 1,
+                title: "Elden Ring",
+                category: "Jogo",
+                rating: 9.8,
+                platform: "PC / PS5 / Xbox",
+                author: "GamerPro99",
+                comment: "Uma obra-prima absoluta do design de mundo aberto. A liberdade de exploração combinada com o combate desafiador torna uma experiência inesquecível.",
+                likes: 42,
+                liked: false
+            },
+            {
+                id: 2,
+                title: "Sousou no Frieren",
+                category: "Anime",
+                rating: 10,
+                platform: "Madhouse",
+                author: "OtakuCentral",
+                comment: "Trilha sonora fantástica, animação impecável e uma narrativa emocionante sobre a passagem do tempo e conexões humanas. Um dos melhores animes da década.",
+                likes: 38,
+                liked: false
+            },
+            {
+                id: 3,
+                title: "The Legend of Zelda: Tears of the Kingdom",
+                category: "Jogo",
+                rating: 9.7,
+                platform: "Nintendo Switch",
+                author: "LinkFan",
+                comment: "A mecânica de criação com a habilidade Ultrahand eleva a interatividade a um nível inacreditável. O mapa do céu e das profundezas expandem drasticamente o jogo.",
+                likes: 29,
+                liked: false
+            },
+            {
+                id: 4,
+                title: "Attack on Titan (Shingeki no Kyojin)",
+                category: "Anime",
+                rating: 9.5,
+                platform: "MAPPA / WIT",
+                author: "AnimeMaster",
+                comment: "Uma trama recheada de reviravoltas impressionantes do começo ao fim. A evolução dos personagens e os dilemas morais são fantásticos.",
+                likes: 54,
+                liked: false
+            }
+        ];
+
+        // Estado local da aplicacao
+        let reviews = JSON.parse(localStorage.getItem('critique_play_reviews')) || initialReviews;
+        let activeFilter = 'all';
+        let searchQuery = '';
+
+        // Elementos DOM
+        const reviewsContainer = document.getElementById('reviewsContainer');
+        const reviewForm = document.getElementById('reviewForm');
+        const searchInput = document.getElementById('searchInput');
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const toast = document.getElementById('toast');
+        const toastMsg = document.getElementById('toastMsg');
+
+        // Renderizar Lista de Reviews
+        function renderReviews() {
+            reviewsContainer.innerHTML = '';
+
+            const filteredReviews = reviews.filter(item => {
+                const matchesFilter = activeFilter === 'all' || item.category === activeFilter;
+                const matchesSearch = item.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                                      item.platform.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                                      item.author.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                                      item.comment.toLowerCase().includes(searchQuery.toLowerCase());
+                return matchesFilter && matchesSearch;
+            });
+
+            if (filteredReviews.length === 0) {
+                reviewsContainer.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fa-solid fa-folder-open"></i>
+                        <h3>Nenhuma avaliação encontrada</h3>
+                        <p>Tente ajustar a sua busca ou seja o primeiro a enviar uma review sobre este título!</p>
+                    </div>
+                `;
+                return;
+            }
+
+            filteredReviews.forEach(review => {
+                const card = document.createElement('div');
+                card.className = 'review-card';
+
+                const isGame = review.category === 'Jogo';
+                const badgeClass = isGame ? 'badge-game' : 'badge-anime';
+                const iconClass = isGame ? 'fa-gamepad' : 'fa-tv';
+
+                card.innerHTML = `
+                    <div>
+                        <div class="card-top">
+                            <span class="badge ${badgeClass}">
+                                <i class="fa-solid ${iconClass}"></i> ${review.category}
+                            </span>
+                            <div class="rating-badge">
+                                <i class="fa-solid fa-star"></i> ${parseFloat(review.rating).toFixed(1)}
+                            </div>
+                        </div>
+                        <h4 class="card-title">${escapeHTML(review.title)}</h4>
+                        <div class="card-subtitle">
+                            <i class="fa-solid ${isGame ? 'fa-desktop' : 'fa-film'}"></i>
+                            ${escapeHTML(review.platform)}
+                        </div>
+                        <p class="card-comment">${escapeHTML(review.comment)}</p>
+                    </div>
+                    <div class="card-footer">
+                        <div class="reviewer-info">
+                            <i class="fa-solid fa-user-circle"></i> ${escapeHTML(review.author)}
+                        </div>
+                        <button class="like-btn ${review.liked ? 'liked' : ''}" onclick="toggleLike(${review.id})">
+                            <i class="${review.liked ? 'fa-solid' : 'fa-regular'} fa-heart"></i>
+                            <span>${review.likes}</span>
+                        </button>
+                    </div>
+                `;
+
+                reviewsContainer.appendChild(card);
+            });
+        }
+
+        // Adicionar Nova Review
+        reviewForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const newReview = {
+                id: Date.now(),
+                title: document.getElementById('title').value,
+                category: document.getElementById('category').value,
+                rating: parseFloat(document.getElementById('rating').value),
+                platform: document.getElementById('platform').value,
+                author: document.getElementById('author').value,
+                comment: document.getElementById('comment').value,
+                likes: 0,
+                liked: false
+            };
+
+            reviews.unshift(newReview);
+            saveToLocalStorage();
+            renderReviews();
+            reviewForm.reset();
+
+            showToast("Sua avaliação foi publicada com sucesso!");
+            
+            // Scroll suave até o mural
+            document.getElementById('reviews').scrollIntoView({ behavior: 'smooth' });
+        });
+
+        // Alternar curtida/like
+        window.toggleLike = function(id) {
+            const review = reviews.find(r => r.id === id);
+            if (review) {
+                if (review.liked) {
+                    review.likes -= 1;
+                    review.liked = false;
+                } else {
+                    review.likes += 1;
+                    review.liked = true;
+                }
+                saveToLocalStorage();
+                renderReviews();
+            }
+        };
+
+        // Filtro por categoria
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                activeFilter = btn.getAttribute('data-filter');
+                renderReviews();
+            });
+        });
+
+        // Evento de Busca em tempo real
+        searchInput.addEventListener('input', (e) => {
+            searchQuery = e.target.value;
+            renderReviews();
+        });
+
+        // Salvar localmente
+        function saveToLocalStorage() {
+            localStorage.setItem('critique_play_reviews', JSON.stringify(reviews));
+        }
+
+        // Exibir Notificação Toast
+        function showToast(message) {
+            toastMsg.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // Sanitizador simples para XSS
+        function escapeHTML(str) {
+            return str.replace(/[&<>'"]/g, 
+                tag => ({
+                    '&': '&amp;',
+                    '<': '&lt;',
+                    '>': '&gt;',
+                    "'": '&#39;',
+                    '"': '&quot;'
+                }[tag] || tag)
+            );
+        }
+
+        // Inicialização
+        window.onload = function() {
+            renderReviews();
+        };
+    </script>
+</body>
+</html>
