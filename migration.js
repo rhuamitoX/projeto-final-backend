@@ -19,8 +19,11 @@ async function criar_estrutura() {
 
     `)
     console.log("migration realizado")
-    } catch(error) {
-        console.log(error)
+    process.exit(0)
+} catch(error) {
+    console.log(error)
+    process.exit(1)
     }
 }
-criar_estrutura() 
+criar_estrutura()
+ 
