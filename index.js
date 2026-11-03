@@ -98,6 +98,58 @@ app.get("/cliente/perfil", autenticar, async (req,res) => {
 })
 
 
+app.get("/anime", async (req, res) => {
+    try {
+        let sql = "SELECT * FROM anime WHERE 1=1"
+        const params = []
+        // Query Parameter
+        const { busca, ordenacao } = req.query
+        let resultado
+        if (busca) {
+            sql += " AND nome LIKE ?"
+            params.push(`%${busca}%`)
+        } 
+        if (ordenacao) {
+            if (ordenacao == "titulo") {
+                sql += " ORDER BY titulo DESC"
+            } else {
+                sql += " ORDER BY titulo ASC"
+            }
+        }
+        resultado = await db.pool.query(sql, params)
+        res.status(200).json(resultado[0])
+    } catch (error) {
+        res.status(500).json({erro: error.message})
+    }
+})
+
+app.get("/jogos", async (req, res) => {
+    try {
+        let sql = "SELECT * FROM jogos WHERE 1=1"
+        const params = []
+        // Query Parameter
+        const { busca, ordenacao } = req.query
+        let resultado
+        if (busca) {
+            sql += " AND nome LIKE ?"
+            params.push(`%${busca}%`)
+        } 
+        if (ordenacao) {
+            if (ordenacao == "titulo") {
+                sql += " ORDER BY titulo DESC"
+            } else {
+                sql += " ORDER BY titulo ASC"
+            }
+        }
+        resultado = await db.pool.query(sql, params)
+        res.status(200).json(resultado[0])
+    } catch (error) {
+        res.status(500).json({erro: error.message})
+    }
+})
+
+
+
 app.listen(port, () => {
     console.log("API rodando na porta" + port)
 })
