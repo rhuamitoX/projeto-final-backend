@@ -110,7 +110,7 @@ app.get("/anime", async (req, res) => {
             params.push(`%${busca}%`)
         } 
         if (ordenacao) {
-            if (ordenacao == "titulo") {
+            if (ordenacao == "desc") {
                 sql += " ORDER BY titulo DESC"
             } else {
                 sql += " ORDER BY titulo ASC"
@@ -131,11 +131,11 @@ app.get("/jogos", async (req, res) => {
         const { busca, ordenacao } = req.query
         let resultado
         if (busca) {
-            sql += " AND nome LIKE ?"
+            sql += " AND titulo LIKE ?"
             params.push(`%${busca}%`)
         } 
         if (ordenacao) {
-            if (ordenacao == "titulo") {
+            if (ordenacao == "desc") {
                 sql += " ORDER BY titulo DESC"
             } else {
                 sql += " ORDER BY titulo ASC"
@@ -166,3 +166,5 @@ function autenticar(req, res, next){
         next()
     })   
 }
+
+// http://localhost:3000/jogos
