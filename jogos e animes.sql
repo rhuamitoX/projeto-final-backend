@@ -27,3 +27,13 @@ CREATE TABLE anime
  estudio VARCHAR(100) NOT NULL
 );
 INSERT INTO anime (titulo, sinopse, status, numero_episodios, estudio) VALUES
+('Dragon Ball Z', 'Um grupo de guerreiros liderado por Goku defende a Terra contra ameaças alienígenas, androides e criaturas mágicas cada vez mais poderosas.', 'Finalizado', 291, 'Toei Animation'),
+('Naruto', 'Um jovem ninja hiperativo e rejeitado por sua vila busca reconhecimento e sonha em se tornar o Hokage, o líder máximo de sua aldeia.', 'Finalizado', 220, 'Pierrot'),
+('One Piece', 'Monkey D. Luffy e sua tripulação de piratas navegam pelos mares em busca do tesouro supremo, o One Piece, para que ele se torne o Rei dos Piratas.', 'Em andamento', 1122, 'Toei Animation'),
+('Spy x Family', 'Um espião precisa formar uma família falsa para cumprir uma missão secreta, sem saber que sua esposa é uma assassina de aluguel e sua filha adotiva é telepata.', 'Em andamento', 37, 'Wit Studio / CloverWorks'),
+('Pokémon', 'Ash Ketchum viaja por diversas regiões ao lado de seu parceiro Pikachu capturando criaturas e batalhando em ginásios para se tornar um Mestre Pokémon.', 'Finalizado', 1234, 'OLM'),
+('Digimon', 'Sete crianças são transportadas para o Digimundo durante um acampamento de verão e precisam se unir a monstros digitais para salvar tanto esse mundo quanto a Terra.', 'Finalizado', 54, 'Toei Animation'),
+('Attack on Titan', 'Em um mundo onde a humanidade vive cercada por muralhas gigantes para se proteger de titãs devoradores de humanos, Eren Yeager jura exterminar todas essas criaturas.', 'Finalizado', 94, 'Wit Studio / MAPPA'),
+('Dandadan', 'Dois estudantes do ensino médio — uma garota que acredita em fantasmas e um garoto obcecado por alienígenas — descobrem que ambos existem e enfrentam ameaças sobrenaturais.', 'Em andamento', 12, 'Science SARU'),
+('Demon Slayer', 'Após ter sua família massacrada e sua irmã transformada em demônio, Tanjiro Kamado se torna um caçador de oni em busca de vingança e de uma cura para ela.', 'Finalizado', 63, 'ufotable'),
+('Yu Yu Hakusho', 'Após morrer atropelado ao salvar uma criança, o delinquente Yusuke Urameshi ganha uma segunda chance e se torna um Detetive Sobrenatural encarregado de investigar casos envolvendo demônios.', 'Finalizado', 112, 'Pierrot');
