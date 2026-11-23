@@ -22,6 +22,10 @@ const cors = require("cors")
 app.use(cors())
 
 
+const path = require("path")
+app.use("/img", express.static(path.join(__dirname, 'img')))
+// http://localhost:3000/img/1/1.jpg
+
 // aqui fazemos as operações do bd
 app.post("/cliente", async(req,res) => {
     try {
